@@ -10,6 +10,8 @@
 using namespace std;
 
 priority_queue<Item*, vector<Item*>, compareItem> pq;
+//Land for the Simulation
+Land simfield[512][512];
 
 int main() {
     Item *temp;

@@ -15,9 +15,6 @@ struct Land {
     Grass* grass;
 };
 
-//Land for the Simulation
-Land simfield[512][512];
-
 //Grass 
 class Grass : public Item {
     public:
