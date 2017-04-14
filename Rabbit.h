@@ -1,9 +1,16 @@
 #ifndef RABBIT_H
 #define RABBIT_H
 
+#include <iostream>
+#include <queue>
+#include <cstdlib>
 #include "Animal.h"
+#include "Land.h"
 
 using namespace std;
+
+extern priority_queue<Item*, vector<Item*>, compareItem> pq;
+extern Land simfield[512][512];
 
 class Rabbit : public Animal {
     public:
@@ -13,13 +20,13 @@ class Rabbit : public Animal {
 
 class LazyRabbit : public Rabbit {
     public:
-        LazyRabbit(int DOB);
+        LazyRabbit(int DOB, int x, int y);
         void run();
 };
 
 class ActiveRabbit : public Rabbit {
     public:
-        ActiveRabbit(int DOB);
+        ActiveRabbit(int DOB, int x, int y);
         void run();
 };
 

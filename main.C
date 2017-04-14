@@ -13,17 +13,21 @@ priority_queue<Item*, vector<Item*>, compareItem> pq;
 //Land for the Simulation
 Land simfield[512][512];
 
+void initiateField();
+
 int main() {
+    initiateField();
+
     Item *temp;
     //Active Rabbits
     for (int i = 0; i < 10; i++) {
-        temp = new ActiveRabbit(0);
+        temp = new ActiveRabbit(0, 0, 0);
         temp -> time = 0;
         pq.push(temp);
     }
     //Lazy Rabbits
     for (int i = 0; i < 10; i++) {
-        temp = new ActiveRabbit(0);
+        temp = new LazyRabbit(0, 0, 0);
         temp -> time = 0;
         pq.push(temp);
     }
@@ -35,7 +39,7 @@ int main() {
     }
     
     int currTime = 0;
-    while(currTime < 10000) {
+    while(currTime < 10000 && !pq.empty()) {
         temp = pq.top();
         currTime = temp -> time;
         temp -> run();
@@ -44,4 +48,12 @@ int main() {
     
     
     
+}
+
+void initiateField() {
+    for (int i = 0; i < 512; i++) {
+        for (int j = 0; j < 512; j++) {
+            simfield[i][j].grass = new Grass();
+        }
+    }
 }

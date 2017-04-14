@@ -1,11 +1,19 @@
-// @TODO Compile Problem: http://stackoverflow.com/questions/11072244/c-multiple-definitions-of-a-variable
 #ifndef LAND_H
 #define LAND_H
+
+#include <iostream>
+#include <queue>
 
 #include "Item.h"
 #include "Animal.h"
 
 using namespace std;
+
+extern priority_queue<Item*, vector<Item*>, compareItem> pq;
+
+struct Land;
+
+extern Land simfield[512][512];
 
 class Grass;
 
@@ -17,10 +25,17 @@ struct Land {
 
 //Grass 
 class Grass : public Item {
+    private:
+        bool eaten;
     public:
         Grass() {}
-        bool isEaten;
-        int age;
+        bool isEaten();
+        void run();
+        void eat();
 };
+
+//Returns a square subset of the Land by size (Diameter) and the center
+//Invalid Spots will = NULL
+//Land ** subset(int, int, int);
 
 #endif
