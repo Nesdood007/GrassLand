@@ -3,17 +3,22 @@
 const int size = 11;
 const int sizeA = 21;
 
+void Rabbit::kill() {
+    isKilled = true;
+}
+
 LazyRabbit::LazyRabbit(int DOB, int x, int y) {
     birthday = DOB;
     this->x = x;
     this->y = y;
     //srand(time(NULL));
+    isKilled = false;
 }
 
 //Run Function
 void LazyRabbit::run() {
     cout << "Lazy Rabbit Ran" << endl;
-    if (time - lastEat > 5 || time - birthday > 450) {
+    if (time - lastEat > 5 || time - birthday > 450 || isKilled) {
         cout << "\tLazy Rabbit has Died" << endl;
         simfield[x][y].animal = NULL;
         return;
@@ -66,6 +71,7 @@ ActiveRabbit::ActiveRabbit(int DOB, int x, int y) {
     this->x = x;
     this->y = y;
     deathDay = 18 + rand() % 4;
+    isKilled = false;
 }
 
 //Run Function
@@ -81,6 +87,11 @@ void ActiveRabbit::run() {
     if (time - birthday > deathDay && rand() % 20 == 1) {
         cout << "\tActive Rabbit has died of old age" << endl;
         simfield[x][y].animal = NULL;
+        return;
+    }
+    if (isKilled) {
+        cout << "Active Rabbit has been eaten and was killed" << endl;
+        //Don't need to change the spot because the wolf will be there
         return;
     }
     cout << "\t[x,y]:[" << x << "," << y <<"]" << endl;

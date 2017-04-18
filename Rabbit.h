@@ -13,9 +13,12 @@ extern priority_queue<Item*, vector<Item*>, compareItem> pq;
 extern Land simfield[512][512];
 
 class Rabbit : public Animal {
+    protected:
+        bool isKilled;
     public:
         Rabbit() {}
         virtual void run() =0;
+        void kill();
 };
 
 class LazyRabbit : public Rabbit {
