@@ -17,7 +17,7 @@ class Rabbit : public Animal {
         bool isKilled;
     public:
         Rabbit() {}
-        virtual void run() =0;
+        virtual void run() {}//=0
         void kill();
 };
 

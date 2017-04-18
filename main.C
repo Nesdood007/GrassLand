@@ -17,7 +17,7 @@ void initiateField();
 
 int main() {
     initiateField();
-
+    //@TODO Make the Placement of the animals random and put them in seperate spots on the board.
     Item *temp;
     //Active Rabbits
     for (int i = 0; i < 10; i++) {
