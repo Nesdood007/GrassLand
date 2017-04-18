@@ -25,6 +25,7 @@ class LazyRabbit : public Rabbit {
 };
 
 class ActiveRabbit : public Rabbit {
+    int deathDay;
     public:
         ActiveRabbit(int DOB, int x, int y);
         void run();

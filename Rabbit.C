@@ -30,8 +30,8 @@ void LazyRabbit::run() {
         //If grass is found, then move to grass, otherwise, pick a random spot to move to
         for (int i = x - (size / 2 ); i < x + (size / 2) && !grassFound; i++) {
             for (int j = y - (size / 2); j < y + (size / 2) && !grassFound; j++) {
-                if (i > 0 && j > 0 && i < 512 && j < 512 && !simfield[i][j].grass -> isEaten()) {
-                    //Grass is found, move here
+                if (i > 0 && j > 0 && i < 512 && j < 512 && !simfield[i][j].grass -> isEaten() && simfield[i][j].animal == NULL) {
+                    //Empty Grass spot is found, move here
                     grassFound = true; newX = i - x + (size / 2) + 1; newY = j - y + (size / 2) + 1;
                     simfield[i][j].grass -> eat();
                     lastEat = time;
@@ -46,13 +46,16 @@ void LazyRabbit::run() {
             int tempY = y - (size / 2);
             if (tempX < 0) tempX = 0;
             if (tempY < 0) tempY = 0;
-            newX = (rand() % size) + tempX;
-            newY = (rand() % size) + tempY;
-            
+            while (simfield[newX][newY].animal != NULL) {
+                newX = (rand() % size) + tempX;
+                newY = (rand() % size) + tempY;
+            }
         }
+        simfield[x][y].animal = NULL;
         x = newX;
         y = newY;
         cout << "\t{" << x << "," << y << "}" << endl;
+        simfield[x][y].animal = this;
     }
     time += 1;
     pq.push(this);
@@ -62,14 +65,21 @@ ActiveRabbit::ActiveRabbit(int DOB, int x, int y) {
     birthday = DOB;
     this->x = x;
     this->y = y;
+    deathDay = 18 + rand() % 4;
 }
 
 //Run Function
 //@TODO Make ACtive Rabbit behave properly
 void ActiveRabbit::run() {
     cout << "Active Rabbit Ran" << endl;
-    if (time - lastEat > 5 || time - birthday > 450) {
-        cout << "\tActive Rabbit has Died" << endl;
+    if (time - lastEat > 20) {
+        cout << "\tActive Rabbit has died of hunger" << endl;
+        simfield[x][y].animal = NULL;
+        return;
+    }
+    //Kill Active Rabbit if it is too old and the chance is correct
+    if (time - birthday > deathDay && rand() % 20 == 1) {
+        cout << "\tActive Rabbit has died of old age" << endl;
         simfield[x][y].animal = NULL;
         return;
     }
@@ -85,8 +95,8 @@ void ActiveRabbit::run() {
         //If grass is found, then move to grass, otherwise, pick a random spot to move to
         for (int i = x - (sizeA / 2 ); i < x + (sizeA / 2) && !grassFound; i++) {
             for (int j = y - (sizeA / 2); j < y + (sizeA / 2) && !grassFound; j++) {
-                if (i > 0 && j > 0 && i < 512 && j < 512 && !simfield[i][j].grass -> isEaten()) {
-                    //Grass is found, move here
+                if (i > 0 && j > 0 && i < 512 && j < 512 && !simfield[i][j].grass -> isEaten() && simfield[i][j].animal == NULL) {
+                    //Grass is found and spot is empty, move here
                     grassFound = true; newX = i - x + (sizeA / 2) + 1; newY = j - y + (sizeA / 2) + 1;
                     simfield[i][j].grass -> eat();
                     lastEat = time;
@@ -101,13 +111,16 @@ void ActiveRabbit::run() {
             int tempY = y - (sizeA / 2);
             if (tempX < 0) tempX = 0;
             if (tempY < 0) tempY = 0;
-            newX = (rand() % sizeA) + tempX;
-            newY = (rand() % sizeA) + tempY;
-            
+            while (simfield[newX][newY].animal != NULL) {
+                newX = (rand() % sizeA) + tempX;
+                newY = (rand() % sizeA) + tempY;
+            }
         }
+        simfield[x][y].animal = NULL;
         x = newX;
         y = newY;
         cout << "\t{" << x << "," << y << "}" << endl;
+        simfield[x][y].animal = this;
     }
     time += 2;
     pq.push(this);
