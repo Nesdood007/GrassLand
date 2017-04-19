@@ -2,6 +2,7 @@
 
 const int size = 11;
 const int sizeA = 21;
+const int TIMEOUT = 50;
 
 void Rabbit::kill() {
     isKilled = true;
@@ -14,6 +15,7 @@ LazyRabbit::LazyRabbit(int DOB, int x, int y) {
     this->y = y;
     //srand(time(NULL));
     isKilled = false;
+    simfield[x][y].animal = this;
 }
 
 //Run Function
@@ -53,9 +55,16 @@ void LazyRabbit::run() {
             int tempY = y - (size / 2);
             if (tempX < 0) tempX = 0;
             if (tempY < 0) tempY = 0;
-            while (simfield[newX][newY].animal != NULL) {
+            int to = 0;
+            while (newX >= 512 || newY >= 512 || simfield[newX][newY].animal != NULL || to < TIMEOUT) {
                 newX = (rand() % size) + tempX;
                 newY = (rand() % size) + tempY;
+                to++;
+            }
+            //If timeout Expires, then don't move
+            if (to >= TIMEOUT) {
+                newX = x;
+                newY = y;
             }
         }
         simfield[x][y].animal = NULL;
@@ -75,6 +84,7 @@ ActiveRabbit::ActiveRabbit(int DOB, int x, int y) {
     this->y = y;
     deathDay = 18 + rand() % 4;
     isKilled = false;
+    simfield[x][y].animal = this;
 }
 
 //Run Function
@@ -127,9 +137,16 @@ void ActiveRabbit::run() {
             int tempY = y - (sizeA / 2);
             if (tempX < 0) tempX = 0;
             if (tempY < 0) tempY = 0;
-            while (simfield[newX][newY].animal != NULL) {
+            int to = 0;
+            while (newX >= 512 || newY >= 512 || simfield[newX][newY].animal != NULL || to < TIMEOUT) {
                 newX = (rand() % sizeA) + tempX;
                 newY = (rand() % sizeA) + tempY;
+                to++;
+            }
+            //If timeout Expires, then don't move
+            if (to >= TIMEOUT) {
+                newX = x;
+                newY = y;
             }
         }
         simfield[x][y].animal = NULL;

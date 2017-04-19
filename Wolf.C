@@ -3,16 +3,21 @@
 #include "Rabbit.h"
 
 const int RANGE = 65;
+const int TIMEOUT = 100;
+
 Wolf::Wolf(int DOB, int x, int y) {
     birthday = DOB;
     time = DOB;
     this->x = x;
     this->y = y;
+    //cout << "Wolf Coords: " << x << ", " << y << endl;
+    simfield[x][y].animal = this;
 }
 
 //Run Function
 void Wolf::run() {
     std::cout << "Day " << time << ":Wolf Ran" << std::endl;
+    
     
     if (time - lastEat > 20) {
         cout << "Wolf died of hunger" << endl;
@@ -49,14 +54,26 @@ void Wolf::run() {
     
     if (!foundRabbit) {
         cout << "\tLooking for random spot" << endl;
+        //cout << "\tWolf orig Coords: " << x << ", " << y << endl;
+        //cout << "\tRANGE/2:" << (RANGE / 2) << endl;
         int tempX = x - (RANGE / 2);
         int tempY = y - (RANGE / 2);
+        //cout << "\tWolf temp Coords: " << tempX << ", " << tempY << endl;
         if (tempX < 0) tempX = 0;
+        //if (tempX - RANGE > 512) tempX = x
         if (tempY < 0) tempY = 0;
-        while (simfield[newX][newY].animal != NULL) {
+        int to = 0;
+        while (newX >= 512 || newY >= 512 || simfield[newX][newY].animal != NULL || to < TIMEOUT) {
             newX = (rand() % RANGE) + tempX;
             newY = (rand() % RANGE) + tempY;
+            //cout << "\tWolf Coords: " << newX << ", " << newY << endl;
+            to++;
         }
+        if (to >= TIMEOUT) {
+            newX = x;
+            newY = y;
+        }
+        
     }
     simfield[x][y].animal = NULL;
     x = newX;
