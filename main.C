@@ -1,3 +1,6 @@
+//Brady O'Leary, Viraj Patel
+//CSCE 240 Spring 2017 Project 7 - GrassLand Simulator
+//19 April 2017
 #include <iostream>
 #include <queue>
 #include <cstdlib>
