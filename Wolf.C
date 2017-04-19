@@ -3,21 +3,28 @@
 #include "Rabbit.h"
 
 const int RANGE = 65;
-Wolf::Wolf(int DOB) {
+Wolf::Wolf(int DOB, int x, int y) {
     birthday = DOB;
+    time = DOB;
+    this->x = x;
+    this->y = y;
 }
 
 //Run Function
 void Wolf::run() {
-    std::cout << "Wolf Ran" << std::endl;
+    std::cout << "Day " << time << ":Wolf Ran" << std::endl;
     
     if (time - lastEat > 20) {
         cout << "Wolf died of hunger" << endl;
         simfield[x][y].animal = NULL;
+        deaths[2]++;
         return;
     }
     if (time - birthday > 800 && rand() % 100 == 1) {
         cout << "Wolf died of old age" << endl;
+        simfield[x][y].animal = NULL;
+        deaths[2]++;
+        return;
     }
     
     int newX = x, newY = y;

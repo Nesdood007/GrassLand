@@ -11,6 +11,7 @@ using namespace std;
 
 extern priority_queue<Item*, vector<Item*>, compareItem> pq;
 extern Land simfield[512][512];
+extern int deaths[3];
 
 class Rabbit : public Animal {
     protected:

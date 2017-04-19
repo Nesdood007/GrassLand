@@ -13,7 +13,7 @@ class Item {
 //Makes Item comparable for the priotiry_queue
 struct compareItem {
     bool operator()(const Item* t1, const Item* t2) const {
-        return (t1 -> time > t2 -> time);
+        return (t1 -> time) > (t2 -> time);
     }
 };
 

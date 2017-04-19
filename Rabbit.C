@@ -9,6 +9,7 @@ void Rabbit::kill() {
 
 LazyRabbit::LazyRabbit(int DOB, int x, int y) {
     birthday = DOB;
+    time = DOB;
     this->x = x;
     this->y = y;
     //srand(time(NULL));
@@ -17,10 +18,11 @@ LazyRabbit::LazyRabbit(int DOB, int x, int y) {
 
 //Run Function
 void LazyRabbit::run() {
-    cout << "Lazy Rabbit Ran" << endl;
+    cout << "Day " << time << ": Lazy Rabbit Ran" << endl;
     if (time - lastEat > 5 || time - birthday > 450 || isKilled) {
         cout << "\tLazy Rabbit has Died" << endl;
         simfield[x][y].animal = NULL;
+        deaths[1]++;
         return;
     }
     cout << "\t[x,y]:[" << x << "," << y <<"]" << endl;
@@ -68,6 +70,7 @@ void LazyRabbit::run() {
 
 ActiveRabbit::ActiveRabbit(int DOB, int x, int y) {
     birthday = DOB;
+    time = DOB;
     this->x = x;
     this->y = y;
     deathDay = 18 + rand() % 4;
@@ -75,23 +78,25 @@ ActiveRabbit::ActiveRabbit(int DOB, int x, int y) {
 }
 
 //Run Function
-//@TODO Make ACtive Rabbit behave properly
 void ActiveRabbit::run() {
-    cout << "Active Rabbit Ran" << endl;
+    cout << "Day " << time << ":Active Rabbit Ran" << endl;
     if (time - lastEat > 20) {
         cout << "\tActive Rabbit has died of hunger" << endl;
         simfield[x][y].animal = NULL;
+        deaths[0]++;
         return;
     }
     //Kill Active Rabbit if it is too old and the chance is correct
     if (time - birthday > deathDay && rand() % 20 == 1) {
         cout << "\tActive Rabbit has died of old age" << endl;
         simfield[x][y].animal = NULL;
+        deaths[0]++;
         return;
     }
     if (isKilled) {
         cout << "Active Rabbit has been eaten and was killed" << endl;
         //Don't need to change the spot because the wolf will be there
+        deaths[0]++;
         return;
     }
     cout << "\t[x,y]:[" << x << "," << y <<"]" << endl;
